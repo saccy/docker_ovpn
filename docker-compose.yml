@@ -1,0 +1,14 @@
+version: '3'
+services:
+  openvpn:
+    cap_add:
+      - NET_ADMIN
+    image: saccy_ovpn
+    container_name: openvpn
+    ports:
+      - "1194:1194/udp"
+    restart: always
+    environment:
+      - EASYRSA_BATCH=1
+      - PUBLIC_DNS="$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)"
+      - CLIENT=saccy
