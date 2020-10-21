@@ -1,11 +1,14 @@
 #!/bin/sh
 
+public_dns=$PUBLIC_DNS
+client='client'
+
 touch /etc/openvpn/vars &> /dev/null
-ovpn_genconfig -u udp://$PUBLIC_DNS &> /dev/null
+ovpn_genconfig -u udp://$public_dns &> /dev/null
 ovpn_initpki nopass &> /dev/null
-easyrsa build-client-full $CLIENT nopass &> /dev/null
-ovpn_getclient $CLIENT > /docker_out/$CLIENT.ovpn
+easyrsa build-client-full $client nopass &> /dev/null
+ovpn_getclient $client > /docker_out/$client.ovpn
 echo 'start client cert'
-cat /docker_out/$CLIENT.ovpn
+cat /docker_out/$client.ovpn
 echo 'end client cert'
 ovpn_run &> /dev/null
